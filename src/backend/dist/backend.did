@@ -1,0 +1,118 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type UserProfilePublic = 
+ record {
+   careerFocus: text;
+   createdAt: Timestamp;
+   id: UserId;
+   name: text;
+   updatedAt: Timestamp;
+ };
+type UserId = principal;
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Timestamp = int;
+type SkillMatch = 
+ record {
+   matched: bool;
+   relevance: nat;
+   skill: text;
+ };
+type SkillEntry = 
+ record {
+   level: text;
+   skill: text;
+ };
+type ResumePublic = 
+ record {
+   fileKey: text;
+   filename: text;
+   id: ResumeId;
+   isActive: bool;
+   owner: UserId;
+   tag: text;
+   uploadedAt: Timestamp;
+ };
+type ResumeId = nat;
+type ResumeAnalysis = 
+ record {
+   analyzedAt: Timestamp;
+   atsScore: nat;
+   gaps: vec text;
+   id: AnalysisId;
+   owner: UserId;
+   resumeId: ResumeId;
+   skills: vec SkillEntry;
+   suggestions: vec AnalysisSuggestion;
+   summary: text;
+ };
+type MatchId = nat;
+type JobMatchPublic = 
+ record {
+   company: text;
+   coverLetterDraft: text;
+   description: text;
+   id: MatchId;
+   isSaved: bool;
+   jobTitle: text;
+   location: text;
+   matchedAt: Timestamp;
+   owner: UserId;
+   redFlags: vec text;
+   relevanceScore: nat;
+   resumeId: ResumeId;
+   skillBreakdown: vec SkillMatch;
+ };
+type DashboardStats = 
+ record {
+   avgMatchScore: nat;
+   latestAtsScore: opt nat;
+   totalAnalyses: nat;
+   totalMatches: nat;
+   totalResumes: nat;
+ };
+type AnalysisSuggestion = 
+ record {
+   category: text;
+   suggestion: text;
+ };
+type AnalysisId = nat;
+service : {
+  analyzeResume: (resumeId: ResumeId) -> (ResumeAnalysis);
+  createProfile: (name: text, careerFocus: text) -> (UserProfilePublic);
+  deleteResume: (resumeId: ResumeId) -> (bool);
+  findJobMatches: (resumeId: ResumeId) -> (vec JobMatchPublic);
+  getAnalysisHistory: () -> (vec ResumeAnalysis) query;
+  getDashboardStats: () -> (DashboardStats) query;
+  getJobMatches: () -> (vec JobMatchPublic) query;
+  getLatestAnalysis: (resumeId: ResumeId) -> (opt ResumeAnalysis) query;
+  getMatchDetail: (matchId: MatchId) -> (opt JobMatchPublic) query;
+  getProfile: () -> (opt UserProfilePublic) query;
+  listResumes: () -> (vec ResumePublic) query;
+  removeJobMatch: (matchId: MatchId) -> (bool);
+  saveJobMatch: (matchId: MatchId) -> (bool);
+  setActiveResume: (resumeId: ResumeId) -> (bool);
+  transformAnalysis: (input: TransformationInput) ->
+   (TransformationOutput) query;
+  transformJobs: (input: TransformationInput) -> (TransformationOutput) query;
+  updateProfile: (name: text, careerFocus: text) -> (UserProfilePublic);
+  uploadResume: (filename: text, fileKey: text, tag: text) -> (ResumePublic);
+}

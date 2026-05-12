@@ -1,0 +1,23 @@
+{
+  "overview": "Talent Pulse AI is a full-stack AI-driven platform for resume analysis and job matching. Users sign in, upload resumes, receive AI-powered ATS scoring and skills gap analysis, and discover job matches with detailed alignment scores — all in a sleek dark theme.",
+  "features": [
+    "Internet Identity sign-up and login with protected pages",
+    "Resume upload and storage with multiple versions",
+    "AI-powered ATS scoring, skills gap analysis, and improvement suggestions",
+    "Job matching engine with relevance scores and detailed breakdowns",
+    "Match detail view with skill comparison, red flags, and cover letter suggestions",
+    "Dashboard with stats, recent matches, and quick actions",
+    "Dark theme with professional high-contrast design"
+  ],
+  "category": "productivity",
+  "tags": [
+    "resume",
+    "job-matching",
+    "ai",
+    "career",
+    "analysis",
+    "dark-theme",
+    "productivity"
+  ],
+  "last_updated": "2026-05-11T14:00:17.953Z"
+}
